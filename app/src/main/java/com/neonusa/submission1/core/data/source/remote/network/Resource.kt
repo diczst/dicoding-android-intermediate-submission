@@ -3,7 +3,6 @@ package com.neonusa.submission1.core.data.source.remote.network
 data class Resource<out T>(val state: State, val data: T?, val message: String?) {
 
     companion object {
-
         fun <T> success(data: T?): Resource<T> {
             return Resource(State.SUCCESS, data, null)
         }

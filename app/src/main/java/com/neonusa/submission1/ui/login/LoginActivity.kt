@@ -3,7 +3,9 @@ package com.neonusa.submission1.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import com.afollestad.materialdialogs.MaterialDialog
 import com.neonusa.submission1.core.data.source.remote.network.State
 import com.neonusa.submission1.core.data.source.remote.request.LoginRequest
 import com.neonusa.submission1.databinding.ActivityLoginBinding
@@ -37,18 +39,26 @@ class LoginActivity : AppCompatActivity() {
                     viewModel.login(body).observe(this) {
                         when(it.state){
                             State.SUCCESS -> {
-//                                dismisLoading()
                                 Toast.makeText(this, "Selamat datang : ${it.data?.name}", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this, HomeActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
                             State.ERROR -> {
-//                                dismisLoading()
-                                Toast.makeText(this, it.message ?: "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                                binding.pbarLogin.visibility = View.GONE
+                                binding.layoutLogin.visibility = View.VISIBLE
+
+                                MaterialDialog(this).show {
+                                    title(text = "Login Gagal")
+                                    message(text = "${it.message}")
+                                    negativeButton(text = "Coba Lagi") { materialDialog ->
+                                        materialDialog.dismiss()
+                                    }
+                                }
                             }
                             State.LOADING -> {
-//                                showLoading()
+                                binding.layoutLogin.visibility = View.GONE
+                                binding.pbarLogin.visibility = View.VISIBLE
                             }
                         }
 

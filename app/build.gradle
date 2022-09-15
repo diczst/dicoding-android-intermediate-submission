@@ -60,4 +60,10 @@ dependencies {
     // preferences
     implementation "com.chibatching.kotpref:kotpref:2.13.1"
 
+    // material dialogs
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.Drjacky:ImagePicker:2.1.11'
+
 }

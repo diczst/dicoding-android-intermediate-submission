@@ -16,19 +16,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_token"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="HALAMAN UTAMA"/>
+        <include
+            android:id="@+id/toolbar_home"
+            layout="@layout/layout_home_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/action_logout"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_story"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Keluar"/>
-
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_story" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

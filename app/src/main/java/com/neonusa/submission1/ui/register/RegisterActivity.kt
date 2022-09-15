@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.afollestad.materialdialogs.MaterialDialog
 import com.neonusa.submission1.core.data.source.remote.network.State
 import com.neonusa.submission1.core.data.source.remote.request.RegisterRequest
 import com.neonusa.submission1.databinding.ActivityRegisterBinding
@@ -46,6 +47,14 @@ class RegisterActivity : AppCompatActivity() {
                             State.ERROR -> {
                                 binding.pbarRegister.visibility = View.GONE
                                 binding.layoutRegister.visibility = View.VISIBLE
+
+                                MaterialDialog(this).show {
+                                    title(text = "Register Gagal")
+                                    message(text = "${it.message}")
+                                    negativeButton(text = "Coba Lagi") { materialDialog ->
+                                        materialDialog.dismiss()
+                                    }
+                                }
                             }
                             State.LOADING -> {
                                 binding.pbarRegister.visibility = View.VISIBLE

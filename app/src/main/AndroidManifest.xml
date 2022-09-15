@@ -4,6 +4,9 @@
     package="com.neonusa.submission1">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".MyApp"
@@ -16,6 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Submission1"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.add.AddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.detail.DetailActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="false" />

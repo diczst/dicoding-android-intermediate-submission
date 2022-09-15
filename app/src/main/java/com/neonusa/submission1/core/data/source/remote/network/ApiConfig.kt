@@ -1,6 +1,8 @@
 package com.neonusa.submission1.core.data.source.remote.network
 
 import com.google.gson.GsonBuilder
+import com.neonusa.submission1.utils.TokenInterceptor
+import com.neonusa.submission1.utils.UserPreference
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,8 +19,12 @@ object ApiConfig {
                 .setLenient()
                 .create()
 
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
+            // without bearer token
+            // val interceptor = HttpLoggingInterceptor()
+            // interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+            val interceptor = TokenInterceptor(UserPreference.getUserToken().toString())
+
             val client: OkHttpClient = OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .connectTimeout(60, TimeUnit.SECONDS)

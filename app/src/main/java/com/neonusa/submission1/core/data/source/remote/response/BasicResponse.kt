@@ -1,6 +1,6 @@
 package com.neonusa.submission1.core.data.source.remote.response
 
-data class RegisterResponse (
+data class BasicResponse (
     val error: Boolean,
     val message: String
 )
