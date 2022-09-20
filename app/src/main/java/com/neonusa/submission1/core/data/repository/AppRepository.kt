@@ -1,9 +1,6 @@
 package com.neonusa.submission1.core.data.repository
-
-import android.util.Log
 import com.neonusa.submission1.core.data.source.remote.RemoteDataSource
 import com.neonusa.submission1.core.data.source.remote.network.Resource
-import com.neonusa.submission1.core.data.source.remote.request.CreateRequest
 import com.neonusa.submission1.core.data.source.remote.request.LoginRequest
 import com.neonusa.submission1.core.data.source.remote.request.RegisterRequest
 import com.neonusa.submission1.utils.UserPreference
@@ -20,14 +17,12 @@ class AppRepository(private val remoteDataSource: RemoteDataSource) {
                 val body = it.body()
                 if (it.isSuccessful) {
                     emit(Resource.success(body))
-                    Log.i("AppRepository", "body: ${body.toString()}")
                 } else {
                     emit(Resource.error(it.getErrorBody(ErrorCustom::class.java)?.message ?: "Unknown Error", null))
-                    Log.i("TAG", "body.message: ${body?.toString()}")
                 }
             }
         } catch (e: Exception) {
-            emit(Resource.error(e.message ?: "Terjadi Kesalahan", null))
+            emit(Resource.error(e.message ?: "Error", null))
         }
     }
 
@@ -46,7 +41,7 @@ class AppRepository(private val remoteDataSource: RemoteDataSource) {
                 }
             }
         } catch (e: Exception) {
-            emit(Resource.error(e.message ?: "Terjadi Kesalahan", null))
+            emit(Resource.error(e.message ?: "Error", null))
         }
     }
 
@@ -57,17 +52,13 @@ class AppRepository(private val remoteDataSource: RemoteDataSource) {
                 if (it.isSuccessful) {
                     val body = it.body()
                     val listStory = body?.listStory
-
                     emit(Resource.success(listStory))
-                    Log.i("TAG", "getUser: {${it.body()}}")
                 } else {
-                    emit(Resource.error(it.getErrorBody()?.message ?: "Default error dongs", null))
-                    Log.i("TAG", "getUser: {${it.getErrorBody()?.message}}")
-
+                    emit(Resource.error(it.getErrorBody()?.message ?: "Response Fail", null))
                 }
             }
         } catch (e: Exception) {
-            emit(Resource.error(e.message ?: "Terjadi Kesalahan", null))
+            emit(Resource.error(e.message ?: "Error", null))
         }
     }
 
@@ -83,15 +74,12 @@ class AppRepository(private val remoteDataSource: RemoteDataSource) {
                 if (it.isSuccessful) {
                     val body = it.body()
                     emit(Resource.success(body))
-                    Log.i("AppRepository", "success: ${body?.message}")
                 } else {
-                    emit(Resource.error(it.getErrorBody()?.message ?: "Default error dongs", null))
-                    Log.i("AppRepository", "failed: ${it.getErrorBody()?.message}")
-
+                    emit(Resource.error(it.getErrorBody()?.message ?: "Response Fail", null))
                 }
             }
         } catch (e: Exception) {
-            emit(Resource.error(e.message ?: "Terjadi Kesalahan", null))
+            emit(Resource.error(e.message ?: "Error", null))
         }
     }
 

@@ -2,7 +2,6 @@ package com.neonusa.submission1.ui.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.neonusa.submission1.R
 import com.neonusa.submission1.core.data.source.model.Story
 import com.neonusa.submission1.databinding.ActivityDetailBinding
 import com.squareup.picasso.Picasso

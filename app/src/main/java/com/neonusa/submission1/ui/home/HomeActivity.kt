@@ -3,7 +3,6 @@ package com.neonusa.submission1.ui.home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.neonusa.submission1.R
 import com.neonusa.submission1.adapter.StoryAdapter
@@ -12,20 +11,29 @@ import com.neonusa.submission1.databinding.ActivityHomeBinding
 import com.neonusa.submission1.ui.add.AddActivity
 import com.neonusa.submission1.ui.login.LoginActivity
 import com.neonusa.submission1.utils.UserPreference
+import com.techiness.progressdialoglibrary.ProgressDialog
 import org.koin.android.ext.android.inject
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private var adapter = StoryAdapter()
     private val viewModel: HomeViewModel by inject()
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        progressDialog = ProgressDialog(this)
+
         setupToolbar()
         getData()
         setupAdapter()
+    }
+
+    override fun onResume() {
+        getData()
+        super.onResume()
     }
 
     private fun setupAdapter() {
@@ -36,22 +44,16 @@ class HomeActivity : AppCompatActivity() {
         viewModel.stories().observe(this) {
             when (it.state) {
                 State.SUCCESS -> {
+                    progressDialog.dismiss()
                     val data = it.data ?: emptyList()
-                    Log.i("HomeActivity", "getData: $data")
                     adapter.addItems(data)
-
-//                    binding.actionLogout.text = adapter.stories.size.toString()
-
-                    if (data.isEmpty()) {
-                    }
                 }
                 State.ERROR -> {
-                    // show error
-                    Log.i("StoreAddressActivity", "getData: ${it.message}")
-
+                    progressDialog.dismiss()
+                    Toast.makeText(this, getString(R.string.fail_get_data), Toast.LENGTH_SHORT).show()
                 }
                 State.LOADING -> {
-                    // show loading
+                    progressDialog.show()
                 }
             }
         }
@@ -72,7 +74,6 @@ class HomeActivity : AppCompatActivity() {
                     R.id.menu_add -> {
                         val intent = Intent(this@HomeActivity, AddActivity::class.java)
                         startActivity(intent)
-                        finish()
                     }
                 }
                 false

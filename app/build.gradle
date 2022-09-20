@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.neonusa.submission1"
-        minSdk 21
+        minSdk 24
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -65,5 +65,7 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.Drjacky:ImagePicker:2.1.11'
+
+    implementation 'com.github.techinessoverloaded:progress-dialog:1.5.1'
 
 }

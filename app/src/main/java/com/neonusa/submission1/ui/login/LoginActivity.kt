@@ -6,23 +6,26 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
+import com.neonusa.submission1.R
 import com.neonusa.submission1.core.data.source.remote.network.State
 import com.neonusa.submission1.core.data.source.remote.request.LoginRequest
 import com.neonusa.submission1.databinding.ActivityLoginBinding
 import com.neonusa.submission1.ui.home.HomeActivity
 import com.neonusa.submission1.ui.register.RegisterActivity
 import com.neonusa.submission1.utils.UserPreference
+import com.techiness.progressdialoglibrary.ProgressDialog
 import org.koin.android.ext.android.inject
 
 class LoginActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityLoginBinding
     private val viewModel: LoginViewModel by inject()
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        progressDialog = ProgressDialog(this)
 
         binding.btnLogin.setOnClickListener {
             val email = binding.edLoginEmail.text.toString()
@@ -39,24 +42,27 @@ class LoginActivity : AppCompatActivity() {
                     viewModel.login(body).observe(this) {
                         when(it.state){
                             State.SUCCESS -> {
-                                Toast.makeText(this, "Selamat datang : ${it.data?.name}", Toast.LENGTH_SHORT).show()
+                                progressDialog.dismiss()
+                                Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this, HomeActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
                             State.ERROR -> {
+                                progressDialog.dismiss()
                                 binding.pbarLogin.visibility = View.GONE
                                 binding.layoutLogin.visibility = View.VISIBLE
 
                                 MaterialDialog(this).show {
-                                    title(text = "Login Gagal")
+                                    title(text = getString(R.string.login_fail))
                                     message(text = "${it.message}")
-                                    negativeButton(text = "Coba Lagi") { materialDialog ->
+                                    negativeButton(text = getString(R.string.try_again)) { materialDialog ->
                                         materialDialog.dismiss()
                                     }
                                 }
                             }
                             State.LOADING -> {
+                                progressDialog.show()
                                 binding.layoutLogin.visibility = View.GONE
                                 binding.pbarLogin.visibility = View.VISIBLE
                             }
@@ -64,17 +70,15 @@ class LoginActivity : AppCompatActivity() {
 
                     }
 
-                } else {
-                    binding.edLoginPassword.requestFocus()
-                    binding.edLoginPassword.setError("Password tidak boleh kurang dari 6 karakter", null)
                 }
 
             } else {
                 if(email.isEmpty()){
-                    binding.edLoginEmail.error = "Email tidak boleh kosong"
-                } else if(pass.isEmpty()) {
+                    binding.edLoginEmail.error = getString(R.string.email_required)
+                }
+                if(pass.isEmpty()) {
                     binding.edLoginPassword.requestFocus()
-                    binding.edLoginPassword.setError("Password tidak boleh kosong", null)
+                    binding.edLoginPassword.setError(getString(R.string.password_required), null)
                 }
             }
         }

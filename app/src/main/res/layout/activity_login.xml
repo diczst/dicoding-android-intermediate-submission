@@ -78,7 +78,7 @@
             app:endIconTint="@color/white"
             app:passwordToggleEnabled="true">
 
-            <com.neonusa.submission1.customview.CustomEditText
+            <com.neonusa.submission1.customview.CustomPasswordEditText
                 android:id="@+id/ed_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

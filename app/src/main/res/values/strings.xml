@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Dicoding Stories</string>
+    <string name="add_story">Tambah Cerita</string>
+    <string name="description">Deskripsi</string>
+    <string name="login_success">Login Berhasil</string>
+    <string name="login_fail">Login Gagal</string>
+    <string name="try_again">Coba Lagi</string>
+    <string name="password_min_6_char">Password tidak boleh kurang dari 6 karakter</string>
+    <string name="email_required">Email tidak boleh kosong</string>
+    <string name="password_required">Password tidak boleh kosong</string>
+    <string name="fail_get_data">Gagal mendapatkan data</string>
+    <string name="success_register">Berhasil melakukan pendaftaran, Silahkan Login</string>
+    <string name="failed_register">Register Gagal</string>
+    <string name="name_required">Nama tidak boleh kosong</string>
+    <string name="register">Daftar</string>
+    <string name="register_to_login">Silahkan daftar untuk login</string>
+    <string name="name">Nama</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="alread_have_acc">Sudah memiliki akun?</string>
+    <string name="login">Login</string>
 </resources>

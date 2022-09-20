@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
+import com.neonusa.submission1.R
 import com.neonusa.submission1.core.data.source.remote.network.State
 import com.neonusa.submission1.core.data.source.remote.request.RegisterRequest
 import com.neonusa.submission1.databinding.ActivityRegisterBinding
-import com.neonusa.submission1.ui.home.HomeActivity
 import com.neonusa.submission1.ui.login.LoginActivity
 import org.koin.android.ext.android.inject
 
@@ -39,7 +39,7 @@ class RegisterActivity : AppCompatActivity() {
                     viewModel.register(body).observe(this) {
                         when(it.state){
                             State.SUCCESS -> {
-                                Toast.makeText(this, "Berhasil melakukan pendaftaran, Silahkan Login", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this, getString(R.string.success_register), Toast.LENGTH_LONG).show()
                                 val intent = Intent(this, LoginActivity::class.java)
                                 startActivity(intent)
                                 finish()
@@ -49,9 +49,9 @@ class RegisterActivity : AppCompatActivity() {
                                 binding.layoutRegister.visibility = View.VISIBLE
 
                                 MaterialDialog(this).show {
-                                    title(text = "Register Gagal")
+                                    title(text = getString(R.string.failed_register))
                                     message(text = "${it.message}")
-                                    negativeButton(text = "Coba Lagi") { materialDialog ->
+                                    negativeButton(text = getString(R.string.try_again)) { materialDialog ->
                                         materialDialog.dismiss()
                                     }
                                 }
@@ -63,26 +63,20 @@ class RegisterActivity : AppCompatActivity() {
                         }
 
                     }
-
-
-
-                } else {
-                    binding.edRegisterPassword.requestFocus()
-                    binding.edRegisterPassword.setError("Password tidak boleh kurang dari 6 karakter", null)
                 }
 
             } else {
                 if(email.isEmpty()){
-                    binding.edRegisterEmail.error = "Email tidak boleh kosong"
+                    binding.edRegisterEmail.error = getString(R.string.email_required)
                 }
 
                 if(pass.isEmpty()) {
                     binding.edRegisterPassword.requestFocus()
-                    binding.edRegisterPassword.setError("Password tidak boleh kosong", null)
+                    binding.edRegisterPassword.setError(getString(R.string.password_required), null)
                 }
 
                 if(name.isEmpty()){
-                    binding.edRegisterName.error = "Nama tidak boleh kosong"
+                    binding.edRegisterName.error = getString(R.string.name_required)
                 }
             }
         }

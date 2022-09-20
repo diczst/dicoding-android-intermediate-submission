@@ -36,15 +36,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Daftar"
+                android:text="@string/register"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="24sp"/>
+                android:textSize="24sp"
+                tools:ignore="PrivateResource" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Silahkan daftar untuk login"/>
+                android:text="@string/register_to_login"/>
 
         </LinearLayout>
 
@@ -63,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:inputType="textEmailAddress"
-                android:hint="Nama"/>
+                android:hint="@string/name"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -81,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:inputType="textEmailAddress"
-                android:hint="Email"/>
+                android:hint="@string/email"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -93,15 +94,16 @@
             app:boxStrokeColor="@color/green_primary"
             app:hintTextColor="@color/green_primary"
             app:endIconTint="@color/white"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            tools:ignore="PrivateResource">
 
-            <com.neonusa.submission1.customview.CustomEditText
+            <com.neonusa.submission1.customview.CustomPasswordEditText
                 android:id="@+id/ed_register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:inputType="textPassword"
-                android:hint="Password"/>
+                android:hint="@string/password"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -111,9 +113,10 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
             android:background="@color/green_primary"
-            android:text="Daftar"
+            android:text="@string/register"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            tools:ignore="PrivateResource" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -126,7 +129,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:text="Sudah memiliki akun?" />
+                android:text="@string/alread_have_acc"
+                tools:ignore="PrivateResource" />
 
             <TextView
                 android:id="@+id/tv_login"
@@ -134,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:textColor="#1B2EAF"
-                android:text="Login"/>
+                android:text="@string/login"/>
 
         </LinearLayout>
 

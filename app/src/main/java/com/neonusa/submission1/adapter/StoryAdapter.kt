@@ -1,9 +1,11 @@
 package com.neonusa.submission1.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.neonusa.submission1.core.data.source.model.Story
 import com.neonusa.submission1.databinding.ItemStoryBinding
@@ -26,11 +28,19 @@ class StoryAdapter : RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
                     .centerCrop()
                     .into(imgItem)
 
+                val optionsCompat: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        itemView.context as Activity,
+                        androidx.core.util.Pair(tvName, "name_detail"),
+                        androidx.core.util.Pair(tvDescription, "desc_detail"),
+                        androidx.core.util.Pair(imgItem, "img_detail")
+                    )
+
                 itemView.setOnClickListener {
                     val intent = Intent( itemView.context, DetailActivity::class.java)
                     val story = stories[position]
                     intent.putExtra(DetailActivity.EXTRA_STORY, story)
-                    itemView.context.startActivity(intent)
+                    itemView.context.startActivity(intent,optionsCompat.toBundle())
                 }
 
             }

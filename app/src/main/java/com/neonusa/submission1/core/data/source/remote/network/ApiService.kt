@@ -1,7 +1,6 @@
 package com.neonusa.submission1.core.data.source.remote.network
 
 import com.neonusa.submission1.core.data.source.model.Story
-import com.neonusa.submission1.core.data.source.remote.request.CreateRequest
 import com.neonusa.submission1.core.data.source.remote.request.LoginRequest
 import com.neonusa.submission1.core.data.source.remote.request.RegisterRequest
 import com.neonusa.submission1.core.data.source.remote.response.BaseListResponse
