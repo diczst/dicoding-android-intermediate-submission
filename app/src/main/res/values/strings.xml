@@ -19,4 +19,10 @@
     <string name="password">Password</string>
     <string name="alread_have_acc">Sudah memiliki akun?</string>
     <string name="login">Login</string>
+
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satellite</string>
+    <string name="terrain_type">Terrain</string>
+    <string name="hybrid_type">Hybrid</string>
 </resources>

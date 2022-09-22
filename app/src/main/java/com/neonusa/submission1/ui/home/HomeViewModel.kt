@@ -5,5 +5,5 @@ import androidx.lifecycle.asLiveData
 import com.neonusa.submission1.core.data.repository.AppRepository
 
 class HomeViewModel(private val repo: AppRepository): ViewModel() {
-    fun stories() = repo.getStories().asLiveData()
+    fun stories(auth: String) = repo.getStories().asLiveData()
 }

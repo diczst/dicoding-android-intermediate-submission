@@ -17,6 +17,7 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         val story = intent.getParcelableExtra<Story>(EXTRA_STORY) as Story
 
         binding.tvDetailName.text = story.name
@@ -28,4 +29,5 @@ class DetailActivity : AppCompatActivity() {
             .centerCrop()
             .into(binding.ivDetailPhoto)
     }
+
 }

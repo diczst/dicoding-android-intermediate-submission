@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.neonusa.submission1.utils.TokenInterceptor
 import com.neonusa.submission1.utils.UserPreference
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -18,14 +19,22 @@ object ApiConfig {
                 .setLenient()
                 .create()
 
-            // without bearer token
-            // val interceptor = HttpLoggingInterceptor()
-            // interceptor.level = HttpLoggingInterceptor.Level.BODY
+//             without bearer token
+//             val interceptor = HttpLoggingInterceptor()
+//             interceptor.level = HttpLoggingInterceptor.Level.BODY
 
-            val interceptor = TokenInterceptor(UserPreference.getUserToken().toString())
+            // | --------------------------------------------------------------------------
+            // | Catatan
+            // | --------------------------------------------------------------------------
+            // | interceptor ini tidak work saat aplikasi pertama kali diinstal
+            // | sebab saat itu TokenInterceptor(null), bahkan walaupun sudah login
+            // | karena objek retrofit yang digunakan masih sama saat sebelum ada token
+            // | __________________________________________________________________________
+
+//            val interceptor = TokenInterceptor(UserPreference.getUserToken().toString())
 
             val client: OkHttpClient = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
+                .addInterceptor(AuthInterceptor())
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)

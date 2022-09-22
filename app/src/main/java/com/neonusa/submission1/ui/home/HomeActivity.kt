@@ -10,6 +10,7 @@ import com.neonusa.submission1.core.data.source.remote.network.State
 import com.neonusa.submission1.databinding.ActivityHomeBinding
 import com.neonusa.submission1.ui.add.AddActivity
 import com.neonusa.submission1.ui.login.LoginActivity
+import com.neonusa.submission1.ui.map.MapsActivity
 import com.neonusa.submission1.utils.UserPreference
 import com.techiness.progressdialoglibrary.ProgressDialog
 import org.koin.android.ext.android.inject
@@ -22,6 +23,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         progressDialog = ProgressDialog(this)
@@ -41,7 +43,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        viewModel.stories().observe(this) {
+        viewModel.stories(UserPreference.getUserToken().toString()).observe(this) {
             when (it.state) {
                 State.SUCCESS -> {
                     progressDialog.dismiss()
@@ -67,12 +69,17 @@ class HomeActivity : AppCompatActivity() {
                 when (item.itemId) {
                     R.id.menu_logout -> {
                         UserPreference.isLogin = false
+                        UserPreference.token = ""
                         val intent = Intent(this@HomeActivity, LoginActivity::class.java)
                         startActivity(intent)
                         finish()
                     }
                     R.id.menu_add -> {
                         val intent = Intent(this@HomeActivity, AddActivity::class.java)
+                        startActivity(intent)
+                    }
+                    R.id.menu_map -> {
+                        val intent =  Intent(this@HomeActivity, MapsActivity::class.java)
                         startActivity(intent)
                     }
                 }

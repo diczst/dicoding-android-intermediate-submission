@@ -5,6 +5,12 @@
         android:id="@+id/menu_add"
         android:title="Tambah Cerita"
         app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/menu_map"
+        android:title="Peta"
+        app:showAsAction="collapseActionView" />
+
     <item
         android:id="@+id/menu_logout"
         android:title="Logout"

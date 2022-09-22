@@ -26,6 +26,10 @@ interface ApiService {
     suspend fun getStories(
     ): Response<BaseListResponse<Story>>
 
+    @GET("stories?location=1")
+    suspend fun getStoriesLocations(
+    ): Response<BaseListResponse<Story>>
+
     @Multipart
     @POST("stories")
     suspend fun createStory(

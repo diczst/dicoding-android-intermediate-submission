@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.neonusa.submission1.core.data.source.model.Story
 import com.neonusa.submission1.databinding.ItemStoryBinding
 import com.neonusa.submission1.ui.detail.DetailActivity
+import androidx.core.util.Pair
 import com.squareup.picasso.Picasso
 
 @SuppressLint("NotifyDataSetChanged")
@@ -28,17 +29,18 @@ class StoryAdapter : RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
                     .centerCrop()
                     .into(imgItem)
 
-                val optionsCompat: ActivityOptionsCompat =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        itemView.context as Activity,
-                        androidx.core.util.Pair(tvName, "name_detail"),
-                        androidx.core.util.Pair(tvDescription, "desc_detail"),
-                        androidx.core.util.Pair(imgItem, "img_detail")
-                    )
-
                 itemView.setOnClickListener {
                     val intent = Intent( itemView.context, DetailActivity::class.java)
                     val story = stories[position]
+
+                    val optionsCompat: ActivityOptionsCompat =
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            itemView.context as Activity,
+                            Pair(tvName, "name_detail"),
+                            Pair(tvDescription, "desc_detail"),
+                            Pair(imgItem, "img_detail")
+                        )
+
                     intent.putExtra(DetailActivity.EXTRA_STORY, story)
                     itemView.context.startActivity(intent,optionsCompat.toBundle())
                 }

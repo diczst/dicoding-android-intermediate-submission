@@ -8,13 +8,16 @@
         <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/drawable/ic_success.xml" value="0.1635" />
         <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/activity_add.xml" value="0.18" />
         <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/activity_detail.xml" value="0.20416666666666666" />
-        <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/activity_home.xml" value="0.12962962962962962" />
         <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/activity_login.xml" value="0.18" />
         <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/activity_maps.xml" value="0.1" />
         <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/activity_register.xml" value="0.22" />
+        <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/fragment_map.xml" value="0.20416666666666666" />
         <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/item_story.xml" value="0.203125" />
         <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/layout/layout_home_toolbar.xml" value="0.22" />
         <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/menu/main_menu.xml" value="0.18518518518518517" />
+        <entry key="..\:/android-dev-projects/Submission1/app/src/main/res/menu/map_options.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

@@ -50,8 +50,6 @@ class LoginActivity : AppCompatActivity() {
                             }
                             State.ERROR -> {
                                 progressDialog.dismiss()
-                                binding.pbarLogin.visibility = View.GONE
-                                binding.layoutLogin.visibility = View.VISIBLE
 
                                 MaterialDialog(this).show {
                                     title(text = getString(R.string.login_fail))
@@ -63,8 +61,6 @@ class LoginActivity : AppCompatActivity() {
                             }
                             State.LOADING -> {
                                 progressDialog.show()
-                                binding.layoutLogin.visibility = View.GONE
-                                binding.pbarLogin.visibility = View.VISIBLE
                             }
                         }
 
