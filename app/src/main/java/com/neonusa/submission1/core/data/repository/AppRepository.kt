@@ -1,8 +1,13 @@
 package com.neonusa.submission1.core.data.repository
-import android.util.Log
+
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import com.neonusa.submission1.core.data.paging.StoryPagingSource
+import com.neonusa.submission1.core.data.source.model.Story
 import com.neonusa.submission1.core.data.source.remote.RemoteDataSource
-import com.neonusa.submission1.core.data.source.remote.network.ApiConfig
-import com.neonusa.submission1.core.data.source.remote.network.ApiService
 import com.neonusa.submission1.core.data.source.remote.network.Resource
 import com.neonusa.submission1.core.data.source.remote.request.LoginRequest
 import com.neonusa.submission1.core.data.source.remote.request.RegisterRequest
@@ -11,8 +16,6 @@ import com.neonusa.submission1.utils.getErrorBody
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.koin.core.context.GlobalContext.get
-import retrofit2.create
 
 class AppRepository(private val remoteDataSource: RemoteDataSource) {
     fun register(data: RegisterRequest) = flow {
@@ -31,7 +34,7 @@ class AppRepository(private val remoteDataSource: RemoteDataSource) {
         }
     }
 
-    fun login(data: LoginRequest) = flow{
+    fun login(data: LoginRequest) = flow {
         emit(Resource.loading(null))
         try {
             remoteDataSource.login(data).let {
@@ -103,6 +106,17 @@ class AppRepository(private val remoteDataSource: RemoteDataSource) {
         } catch (e: Exception) {
             emit(Resource.error(e.message ?: "Error", null))
         }
+    }
+
+    fun getPaginatedStories(): LiveData<PagingData<Story>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                StoryPagingSource(remoteDataSource)
+            }
+        ).liveData
     }
 
     data class ErrorCustom(

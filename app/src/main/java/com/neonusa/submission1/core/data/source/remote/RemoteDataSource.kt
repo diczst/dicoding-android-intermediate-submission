@@ -14,6 +14,7 @@ class RemoteDataSource(private val apiService: ApiService) {
     suspend fun getStories() = apiService.getStories()
     suspend fun getStoriesLocations() = apiService.getStoriesLocations()
 
+    suspend fun getPaginatedStories(page: Int, size: Int) = apiService.getPaginatedStories(page,size)
 
     suspend fun createStory(
         photo: MultipartBody.Part,

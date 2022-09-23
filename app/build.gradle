@@ -70,4 +70,5 @@ dependencies {
 
     implementation 'com.github.techinessoverloaded:progress-dialog:1.5.1'
 
+    implementation "androidx.paging:paging-runtime-ktx:3.1.0"
 }

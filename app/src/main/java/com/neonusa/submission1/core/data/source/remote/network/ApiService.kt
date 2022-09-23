@@ -38,4 +38,11 @@ interface ApiService {
         @Part("lat") lat: RequestBody?,
         @Part("lon") lon: RequestBody?
     ): Response<BasicResponse>
+
+    @GET("stories")
+    suspend fun getPaginatedStories(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): Response<BaseListResponse<Story>>
+
 }

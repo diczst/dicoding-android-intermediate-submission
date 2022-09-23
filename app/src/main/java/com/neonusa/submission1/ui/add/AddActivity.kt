@@ -1,6 +1,7 @@
 package com.neonusa.submission1.ui.add
 
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.github.drjacky.imagepicker.ImagePicker
 import com.neonusa.submission1.core.data.source.remote.network.State
 import com.neonusa.submission1.databinding.ActivityAddBinding
+import com.neonusa.submission1.ui.home.HomeActivity
 import com.squareup.picasso.Picasso
 import com.techiness.progressdialoglibrary.ProgressDialog
 import okhttp3.MediaType.Companion.toMediaType
@@ -51,7 +53,9 @@ class AddActivity : AppCompatActivity() {
                 when (it.state) {
                     State.SUCCESS -> {
                         progressDialog.dismiss()
-                        finish()
+                        val intent = Intent(this, HomeActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
                     }
                     State.ERROR -> {
                         progressDialog.dismiss()
