@@ -11,5 +11,5 @@ import com.neonusa.submission1.core.data.source.model.Story
 
 class HomeViewModel(private val repo: AppRepository): ViewModel() {
     val paginatedStories: LiveData<PagingData<Story>> =
-        repo.getPaginatedStories().cachedIn(viewModelScope)
+        repo.getPaginatedStories().asLiveData().cachedIn(viewModelScope)
 }

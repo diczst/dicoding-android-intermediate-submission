@@ -22,9 +22,9 @@ interface ApiService {
         @Body data: LoginRequest
     ): Response<LoginResponse>
 
-    @GET("stories")
-    suspend fun getStories(
-    ): Response<BaseListResponse<Story>>
+//    @GET("stories")
+//    suspend fun getStories(
+//    ): Response<BaseListResponse<Story>>
 
     @GET("stories?location=1")
     suspend fun getStoriesLocations(

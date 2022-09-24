@@ -7,5 +7,5 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class AddViewModel(private val repo: AppRepository): ViewModel() {
-    fun createStory(photo: MultipartBody.Part, description: RequestBody, lat: RequestBody, lon: RequestBody) = repo.createUser(photo,description,lat,lon).asLiveData()
+    fun createStory(photo: MultipartBody.Part, description: RequestBody, lat: RequestBody, lon: RequestBody) = repo.addStory(photo,description,lat,lon).asLiveData()
 }

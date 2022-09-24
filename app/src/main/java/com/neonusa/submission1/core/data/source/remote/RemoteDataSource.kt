@@ -11,7 +11,7 @@ class RemoteDataSource(private val apiService: ApiService) {
 
     suspend fun register(data: RegisterRequest) = apiService.register(data)
     suspend fun login(data: LoginRequest) = apiService.login(data)
-    suspend fun getStories() = apiService.getStories()
+//    suspend fun getStories() = apiService.getStories()
     suspend fun getStoriesLocations() = apiService.getStoriesLocations()
 
     suspend fun getPaginatedStories(page: Int, size: Int) = apiService.getPaginatedStories(page,size)
