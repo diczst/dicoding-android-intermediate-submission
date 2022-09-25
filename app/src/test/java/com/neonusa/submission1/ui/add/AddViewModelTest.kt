@@ -1,22 +1,25 @@
 package com.neonusa.submission1.ui.add
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
+import com.neonusa.submission1.core.data.repository.AppRepository
 import com.neonusa.submission1.core.data.source.remote.network.Resource
 import com.neonusa.submission1.core.data.source.remote.network.State
-import com.neonusa.submission1.core.data.source.remote.response.BasicResponse
 import com.neonusa.submission1.utils.CoroutinesTestRule
 import com.neonusa.submission1.utils.DataDummy
 import com.neonusa.submission1.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
@@ -33,37 +36,49 @@ class AddViewModelTest {
     private val dummyLat = DataDummy.generateRequestBody()
     private val dummylon = DataDummy.generateRequestBody()
 
-    @Mock
     lateinit var viewModel: AddViewModel
 
-    @Test
-    fun `add story success`() = runTest {
-        val expected = DataDummy.generateAddResponse()
-        val data = MutableLiveData<Resource<BasicResponse>>()
-        data.value = Resource.success(expected)
+    // mock untuk argument viewmodel
+    @Mock
+    lateinit var repository: AppRepository
 
-        Mockito.`when`(viewModel.createStory(dummyMultipart, dummyDesc,dummyLat,dummylon)).thenReturn(data)
-        val actual = viewModel.createStory(dummyMultipart, dummyDesc,dummyLat,dummylon).getOrAwaitValue()
-        Mockito.verify(viewModel).createStory(dummyMultipart, dummyDesc,dummyLat,dummylon)
-
-        advanceUntilIdle()
-
-        assertNotNull(actual)
-        assertEquals(actual.data, expected)
+    @Before
+    fun setup() {
+        viewModel = AddViewModel(repository)
     }
 
     @Test
-    fun `add story fails`() = runTest {
-        val data = MutableLiveData<Resource<BasicResponse>>()
-        data.value = Resource.error("Error", null)
+    fun `add story success`() = runTest {
+        val expected = flowOf(
+            Resource.success(DataDummy.generateAddResponse())
+        )
 
-        Mockito.`when`(viewModel.createStory(dummyMultipart, dummyDesc,dummyLat,dummylon)).thenReturn(data)
+        `when`(repository.addStory(dummyMultipart, dummyDesc,dummyLat,dummylon)).thenReturn(expected)
+
         val actual = viewModel.createStory(dummyMultipart, dummyDesc,dummyLat,dummylon).getOrAwaitValue()
-        Mockito.verify(viewModel).createStory(dummyMultipart, dummyDesc,dummyLat,dummylon)
-
+        Mockito.verify(repository).addStory(dummyMultipart, dummyDesc,dummyLat,dummylon)
         advanceUntilIdle()
+        // observeForever tidak perlu lifecycle
+        expected.asLiveData().observeForever {
+            assertNotNull(actual)
+            assertEquals(it.data, actual.data)
+        }
+    }
 
-        assertNotNull(actual)
-        assertTrue(actual.state == State.ERROR)
+
+    @Test
+    fun `add story fails`() = runTest {
+        val expected = flowOf(
+            Resource.error("Error",null)
+        )
+
+        `when`(repository.addStory(dummyMultipart, dummyDesc,dummyLat,dummylon)).thenReturn(expected)
+        val actual = viewModel.createStory(dummyMultipart, dummyDesc,dummyLat,dummylon).getOrAwaitValue()
+        Mockito.verify(repository).addStory(dummyMultipart, dummyDesc,dummyLat,dummylon)
+
+        expected.asLiveData().observeForever {
+            assertNotNull(actual)
+            assertTrue(actual.state == State.ERROR)
+        }
     }
 }

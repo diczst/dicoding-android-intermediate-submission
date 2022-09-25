@@ -31,9 +31,6 @@ class HomeViewModelTest {
     @get:Rule
     var coroutinesTestRule = CoroutinesTestRule()
 
-    @Mock
-    lateinit var viewModel: HomeViewModel
-
     @Test
     fun `Get stories - success`() = runTest {
         val dataDummy = DataDummy.generateStories()
@@ -42,19 +39,16 @@ class HomeViewModelTest {
         val stories = MutableLiveData<PagingData<Story>>()
         stories.value = data
 
-        Mockito.`when`(viewModel.paginatedStories).thenReturn(stories)
-
-        val actual = viewModel.paginatedStories.getOrAwaitValue()
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryListAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,
             mainDispatcher = coroutinesTestRule.testDispatcher,
             workerDispatcher = coroutinesTestRule.testDispatcher
         )
-        differ.submitData(actual)
+
+        differ.submitData(data)
         advanceUntilIdle()
 
-        Mockito.verify(viewModel).paginatedStories
         assertNotNull(differ.snapshot())
         assertEquals(dataDummy.size, differ.snapshot().size)
     }

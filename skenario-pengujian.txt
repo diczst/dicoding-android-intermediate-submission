@@ -33,43 +33,45 @@ UNIT TESTING
 - Berhasil mendapatkan data-data lokasi story
 	Mendeklarasikan expected
 	Memanggil data dari repository
-	Mengecek data tidak error
 	Memastikan data dari repository tidak null
-	memastikan actual dan expected sama
+	memastikan data dari repository dan expected sama
 
 - Gagal mendapatkan data-data lokasi story
 	Mendeklarasikan expected
     Memanggil data dari repository
-    Mengecek data tidak error
     Memastikan data dari repository tidak null
-    memastikan actual dan expected sama
+    memastikan data dari repository dan expected sama
 
 - Berhasil menambahkan story
+    Mendeklarasikan service
     Mendeklarasikan expected
     Mendeklarasikan actual
-    Mengecek actual tidak null
+    memastikan actual tidak null
     Memastikan expected dan actual sama
 
 - Gagal menambahkan story
+    Mendeklarasikan service
     Mendeklarasikan expected
     Mendeklarasikan actual
-    Mengecek actual tidak null
+    memastikan actual tidak null
     Memastikan expected dan actual sama
 
 - Berhasil mendapatkan data-data story dengan paging
 	Mendeklarasikan expected dari data dummy
-	Mendeklarasikan actual
-	Memastikan actual Tidak null
+	Mendeklarasikan differ
+	Memastikan differ tidak null
 	Memastikan jumlah actual dan differ sama
 
 
 ##== LoginViewModel ==##
 -Login berhasil
+    Mendeklarasikan request
 	Mendeklarasikan expected
 	Mendeklarasikan actual dari request ke viewmodel
 	Memastikan actual tidak null
 	Memastikan expected dan actual sama
 -Login gagal
+    Mendeklarasikan request
 	Mendeklarasikan expected
 	Mendeklarasikan actual dari request ke viewmodel
 	Memastikan actual tidak null
@@ -77,21 +79,21 @@ UNIT TESTING
 
 ##== RegisterViewModel ==##
 -Register berhasil
+    Mendeklarasikan request
 	Mendeklarasikan expected
 	Mendeklarasikan actual dari request ke viewmodel
 	Memastikan actual tidak null
 	Memastikan expected dan actual sama
 -Register gagal
+    Mendeklarasikan request
 	Mendeklarasikan expected
 	Mendeklarasikan actual dari request ke viewmodel
 	Memastikan actual tidak null
 	Memastikan expected dan actual sama
 
-
 ##== AddViewModel ==##
 - Berhasil menambahkan story
-	Mendeklarasikan expected dummy
-	Mengirim request ke viewmodel
+	Mendeklarasikan expected
 	Mendeklarasikan actual
 	Memastikan actual tidak null
 	Memastikan expected dan actual sama
@@ -106,13 +108,13 @@ UNIT TESTING
 
 ##== MapsViewModel==##
 - Berhasil mendapatkan data-data story dengan lokasi
-	Mendeklarasikan expected dari data dummy
+	Mendeklarasikan expected
 	Mendeklarasikan actual
 	Memastikan actual Tidak null
 	Memastikan expected dan actual sama
 
 - Gagal mendapatkan data-data story dengan lokasi
-    Mendeklarasikan data dengan state error
+    Mendeklarasikan expected
 	Mendeklarasikan actual
 	Memastikan actual Tidak null
 	Memastikan state dari actual sama dengan state error

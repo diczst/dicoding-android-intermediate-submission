@@ -1,29 +1,26 @@
 package com.neonusa.submission1.core.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.neonusa.submission1.adapter.StoryListAdapter
+import com.neonusa.submission1.core.data.source.model.Story
+import com.neonusa.submission1.core.data.source.remote.RemoteDataSource
 import com.neonusa.submission1.core.data.source.remote.network.Resource
 import com.neonusa.submission1.core.data.source.remote.network.State
 import com.neonusa.submission1.core.data.source.remote.request.LoginRequest
 import com.neonusa.submission1.core.data.source.remote.request.RegisterRequest
-import com.neonusa.submission1.utils.CoroutinesTestRule
-import com.neonusa.submission1.utils.DataDummy
-import com.neonusa.submission1.utils.PagedTestDataSource
-import com.neonusa.submission1.utils.ServiceDummy
+import com.neonusa.submission1.utils.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
-import org.junit.Assert
+import kotlinx.coroutines.test.*
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
@@ -32,8 +29,13 @@ class AppRepositoryTest {
     @get:Rule
     var coroutinesTestRule = CoroutinesTestRule()
 
-    @Mock
-    private lateinit var repoMock: AppRepository
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
+
+    private lateinit var appRepository: AppRepository
+
+    @Mock // mock untuk argument AppRepository
+    lateinit var remoteDataSource: RemoteDataSource
 
     private val loginRequest = LoginRequest("johan@mail.com", "12345678")
     private val loginResponse = DataDummy.generateLoginResponse()
@@ -44,6 +46,11 @@ class AppRepositoryTest {
     private val addResponse = DataDummy.generateAddResponse()
     private val dummyDesc = DataDummy.generateRequestBody()
     private val dummyMultipart = DataDummy.generateMultipartFile()
+
+    @Before
+    fun setup() {
+        appRepository = AppRepository(remoteDataSource)
+    }
 
     @Test
     fun `when login is success`() = runBlocking {
@@ -86,8 +93,7 @@ class AppRepositoryTest {
         val expected = flowOf(
             Resource.success(DataDummy.generateStoriesLocationResponse().listStory)
         )
-        Mockito.`when`(repoMock.getStoriesLocations()).thenReturn(expected)
-        repoMock.getStoriesLocations().collect { result ->
+        appRepository.getStoriesLocations().collect { result ->
             if (result.state == State.SUCCESS) {
                 assertNotNull(result)
                 expected.collect {
@@ -99,12 +105,11 @@ class AppRepositoryTest {
 
     @Test
     fun `Get stories location fails`() = runBlocking {
-        val expectedResult = flowOf(Resource.error("Error", null))
-        Mockito.`when`(repoMock.getStoriesLocations()).thenReturn(expectedResult)
-        repoMock.getStoriesLocations().collect { result ->
+        val expected = flowOf(Resource.error("Error", null))
+        appRepository.getStoriesLocations().collect { result ->
             if (result.state == State.ERROR) {
                 assertNotNull(result)
-                expectedResult.collect{
+                expected.collect{
                     assertEquals(it, result)
                 }
             }
@@ -129,27 +134,25 @@ class AppRepositoryTest {
         assertEquals(expected, actual)
     }
 
-
     @Test
-    fun `get paginated storied success`() = runTest {
-        val dummyData = DataDummy.generateStories()
-        val data = PagedTestDataSource.snapshot(dummyData)
-        val expected = flowOf(data)
+    fun `Get paginated stories success`() = runTest {
+        val dataDummy = DataDummy.generateStories()
+        val data = PagedTestDataSource.snapshot(dataDummy)
 
-        val response = DataDummy.generateStoriesLocationResponse()
+        val stories = MutableLiveData<PagingData<Story>>()
+        stories.value = data
 
-        Mockito.`when`(repoMock.getPaginatedStories()).thenReturn(expected)
-        repoMock.getPaginatedStories().collect{actual ->
-            val differ = AsyncPagingDataDiffer(
-                diffCallback = StoryListAdapter.DIFF_CALLBACK,
-                updateCallback = noopListUpdateCallback,
-                mainDispatcher = coroutinesTestRule.testDispatcher,
-                workerDispatcher = coroutinesTestRule.testDispatcher
-            )
-            differ.submitData(actual)
-            assertNotNull(differ.snapshot())
-            assertEquals(response.listStory.size, differ.snapshot().size)
-        }
+        val differ = AsyncPagingDataDiffer(
+            diffCallback = StoryListAdapter.DIFF_CALLBACK,
+            updateCallback = noopListUpdateCallback,
+            mainDispatcher = coroutinesTestRule.testDispatcher,
+            workerDispatcher = coroutinesTestRule.testDispatcher
+        )
+        differ.submitData(data)
+        advanceUntilIdle()
+
+        assertNotNull(differ.snapshot())
+        assertEquals(dataDummy.size, differ.snapshot().size)
     }
 
     private val noopListUpdateCallback = object : ListUpdateCallback {
