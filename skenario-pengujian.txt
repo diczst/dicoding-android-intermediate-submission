@@ -3,30 +3,26 @@ UNIT TESTING
 
 ##== AppRepository ==##
 - Login berhasil
-	Mendeklarasikan service
 	mendeklarasikan expected
-	mendeklarasikan actual
+	memanggil actual
 	Memastikan actual tidak null
 	Memastikan expected sama dengan actual
 	
 - Login gagal
-	Mendeklarasikan service
     mendeklarasikan expected
-    mendeklarasikan actual
+    memanggil actual
 	Memastikan actual tidak null
 	Memastikan expected sama dengan actual
 
 - Register berhasil
-	Mendeklarasikan service
 	mendeklarasikan expected
-	mendeklarasikan actual
+	memanggil actual
 	Memastikan actual tidak null
 	Memastikan expected sama dengan actual
 
 - Register gagal
-	Mendeklarasikan service
     mendeklarasikan expected
-    mendeklarasikan actual
+    memanggil actual
 	Memastikan actual tidak null
 	Memastikan expected sama dengan actual
 

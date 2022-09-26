@@ -58,11 +58,12 @@ class AddViewModelTest {
         val actual = viewModel.createStory(dummyMultipart, dummyDesc,dummyLat,dummylon).getOrAwaitValue()
         Mockito.verify(repository).addStory(dummyMultipart, dummyDesc,dummyLat,dummylon)
         advanceUntilIdle()
-        // observeForever tidak perlu lifecycle
-        expected.asLiveData().observeForever {
+
+        expected.collect{
             assertNotNull(actual)
             assertEquals(it.data, actual.data)
         }
+
     }
 
 
@@ -76,9 +77,10 @@ class AddViewModelTest {
         val actual = viewModel.createStory(dummyMultipart, dummyDesc,dummyLat,dummylon).getOrAwaitValue()
         Mockito.verify(repository).addStory(dummyMultipart, dummyDesc,dummyLat,dummylon)
 
-        expected.asLiveData().observeForever {
+        expected.collect{
             assertNotNull(actual)
             assertTrue(actual.state == State.ERROR)
         }
+
     }
 }

@@ -53,7 +53,8 @@ class LoginViewModelTest{
         Mockito.`when`(repository.login(request)).thenReturn(expected)
 
         val actual = viewModel.login(request).getOrAwaitValue()
-        expected.asLiveData().observeForever {
+
+        expected.collect{
             assertNotNull(actual)
             assertEquals(actual.data, it.data)
         }
@@ -70,7 +71,7 @@ class LoginViewModelTest{
         Mockito.`when`(repository.login(request)).thenReturn(expected)
 
         val actual = viewModel.login(request).getOrAwaitValue()
-        expected.asLiveData().observeForever {
+        expected.collect{
             assertNotNull(actual)
             assertEquals(actual.message, it.message)
         }

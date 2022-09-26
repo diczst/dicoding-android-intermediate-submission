@@ -55,7 +55,7 @@ class MapsViewModelTest {
         val actual = viewModel.storiesLocations().getOrAwaitValue()
         Mockito.verify(repository).getStoriesLocations()
 
-        expected.asLiveData().observeForever {
+        expected.collect{
             assertNotNull(actual)
             assertEquals(actual.data, it.data)
         }
@@ -72,9 +72,10 @@ class MapsViewModelTest {
         val actual = viewModel.storiesLocations().getOrAwaitValue()
         Mockito.verify(repository).getStoriesLocations()
 
-        expected.asLiveData().observeForever {
+        expected.collect{
             assertNotNull(actual)
             assertTrue(actual.state == State.ERROR)
         }
+
     }
 }

@@ -32,13 +32,7 @@ class AppRepositoryTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var appRepository: AppRepository
-
-    @Mock // mock untuk argument AppRepository
-    lateinit var remoteDataSource: RemoteDataSource
-
     private val loginRequest = LoginRequest("johan@mail.com", "12345678")
-    private val loginResponse = DataDummy.generateLoginResponse()
 
     private val registerRequest = RegisterRequest("Wolfgang Grimmer","wolfganggrimmer@mail.com","12345678")
     private val registerResponse = DataDummy.generateRegisterResponse()
@@ -47,45 +41,75 @@ class AppRepositoryTest {
     private val dummyDesc = DataDummy.generateRequestBody()
     private val dummyMultipart = DataDummy.generateMultipartFile()
 
+    lateinit var appRepository: AppRepository
+
+    @Mock
+    lateinit var remoteDataSource: RemoteDataSource
+
     @Before
     fun setup() {
         appRepository = AppRepository(remoteDataSource)
     }
 
     @Test
-    fun `when login is success`() = runBlocking {
-        val service = ServiceDummy()
-        val expectedResponse = loginResponse
-        val actualResponse = service.login(loginRequest).body()
-        assertNotNull(actualResponse)
-        assertEquals(expectedResponse, actualResponse)
+    fun `when login is success`() = runTest {
+        val expected = flowOf(
+            Resource.success(DataDummy.generateLoginResponse().loginResult)
+        )
+        appRepository.login(loginRequest).collect { actual ->
+            if (actual.state == State.SUCCESS) {
+                assertNotNull(actual)
+                expected.collect {
+                    assertEquals(it, actual)
+                }
+            }
+        }
     }
 
     @Test
     fun `when login is failed`() = runBlocking {
-        val service = ServiceDummy()
-        val expected = DataDummy.generateLoginError()
-        val actual = service.loginError()
-        assertNotNull(actual)
-        assertEquals(expected, actual)
+        val expected = flowOf(
+            Resource.error("Error",DataDummy.generateLoginError())
+        )
+
+        appRepository.login(loginRequest).collect { actual ->
+            if (actual.state == State.ERROR){
+                assertNotNull(actual)
+                expected.collect {
+                    assertEquals(it.message, actual.message)
+                }
+            }
+        }
     }
 
     @Test
     fun `when register is success`() = runBlocking {
-        val service = ServiceDummy()
-        val expected = registerResponse
-        val actual = service.register(registerRequest).body()
-        assertNotNull(actual)
-        assertEquals(expected, actual)
+        val expected = flowOf(
+            Resource.success(DataDummy.generateRegisterResponse())
+        )
+        appRepository.register(registerRequest).collect { actual ->
+            if (actual.state == State.SUCCESS) {
+                assertNotNull(actual)
+                expected.collect {
+                    assertEquals(it, actual)
+                }
+            }
+        }
     }
 
     @Test
     fun `when register is failed`() = runBlocking {
-        val service = ServiceDummy()
-        val expected = DataDummy.generateRegisterError()
-        val actual = service.registerError()
-        assertNotNull(actual)
-        assertEquals(expected, actual)
+        val expected = flowOf(
+            Resource.error("Error",null)
+        )
+        appRepository.register(registerRequest).collect { actual ->
+            if (actual.state == State.ERROR) {
+                assertNotNull(actual)
+                expected.collect {
+                    assertEquals(it, actual)
+                }
+            }
+        }
     }
 
     @Test
